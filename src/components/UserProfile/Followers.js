@@ -16,9 +16,9 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
+import {useTheme} from '@react-navigation/native'
 
 var Data = [
     {
@@ -49,19 +49,20 @@ var Data = [
 ]
 
 const Followers = () => {
+    const {colors} = useTheme()
     return(
-        <View style={{flex:1, backgroundColor:'white'}}>
+        <View style={{flex:1, backgroundColor:colors.tabContentColor, height:height}}>
         <ScrollView>
         {
             Data.map(val=>(
-            <Card style={{marginTop:0,marginLeft:0,marginRight:0}}>
+            <Card style={{marginTop:1,marginLeft:1,marginRight:0}}>
                 <TouchableOpacity>
-                <CardItem>
+                <CardItem style={{backgroundColor:colors.followingTabColor}}>
                 <Left>
                     <Avatar.Image size={55} source={val.img} />
                     <Body style={{marginTop:8}}>
-                        <Text>{val.title}</Text>
-                        <Text note>{val.subtitle}</Text>
+                        <Text style={{color:colors.followingTabText}}>{val.title}</Text>
+                        <Text  style={{color:colors.followingTabText}} note>{val.subtitle}</Text>
                     </Body>
                 </Left>
                 <Right>

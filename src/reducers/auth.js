@@ -1,10 +1,12 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,LOGIN_SUCCESS,LOGIN_FAIL, EMAIL_VERIFIED, FORGOT_PASSWORD, LOGOUT, LOADING} from '../actions/types'
+import {REGISTER_SUCCESS,REGISTER_FAIL,LOGIN_SUCCESS,LOGIN_FAIL, EMAIL_VERIFIED, FORGOT_PASSWORD, LOGOUT, LOADING, DARK_THEME} from '../actions/types'
 
 const initalState={
     isAuthenticated: null,
     loading: true,
     sendVerificationEmail:null,
-    user: null
+    showAppInfo:false,
+    user: null,
+    darkTheme:false
 }
 
 export default function(state = initalState, action){
@@ -22,12 +24,18 @@ export default function(state = initalState, action){
                 ...state,
                 ...payload,
                 isAuthenticated:true,
+                showAppInfo:true,
                 loading:false,
             }
         case LOADING:
             return{
                 ...state,
                 loading:payload
+            }
+        case DARK_THEME:
+            return{
+                ...state,
+                darkTheme:payload
             }
         case FORGOT_PASSWORD:
             return{
@@ -41,6 +49,7 @@ export default function(state = initalState, action){
                 ...state,
                 isAuthenticated:false,
                 loading:false,
+                showAppInfo:false,
                 sendVerificationEmail:false
             }
        

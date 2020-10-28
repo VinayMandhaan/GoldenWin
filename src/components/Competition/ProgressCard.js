@@ -36,6 +36,7 @@ var Data = [
 const ProgressCard = (props) => {
     return(
         <>
+        <View style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
         {
             Data.map(val=>(
             <Card style={styles.cardStyle}> 
@@ -66,6 +67,7 @@ const ProgressCard = (props) => {
             </Card>  
               ))
           }
+          </View>
         </>
     )
 }
@@ -81,7 +83,8 @@ const styles = StyleSheet.create({
         marginLeft:3, 
         borderTopLeftRadius:10,
         borderBottomLeftRadius:10,
-        borderBottomRightRadius:10
+        borderBottomRightRadius:10,
+        width:width < 600 ? width:(width/2) - 6
     },
     imageStyle:{
         height:300,
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     cardTitle:{
         color:'white',
         textAlign:'center',
-        marginTop:30,
+        marginTop:60,
     },
     rotatedView:{
         width:'15%',

@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Dimensions,
     StyleSheet,
-    Modal
+    Modal,
+    Alert
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo';
 import Zocial from 'react-native-vector-icons/Zocial'
@@ -16,7 +17,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item, Input} from 'native-base';
 import ProfileHeader from './ProfileHeader';
@@ -27,6 +27,7 @@ var db = firebase.firestore()
 
 const ProfileCard = (props) => {
     const [username, setUsername] = useState('')
+    const [userData, setUserData] = useState([])
     useEffect(()=>{
         getUserData()
     },[])
@@ -42,6 +43,14 @@ const ProfileCard = (props) => {
                }
             });
         });
+
+        db.collection('users').onSnapshot(docs=>{
+            let users = []
+            docs.forEach(doc=>{
+                users.push(doc.data())
+            })
+            setUserData(users)
+        })
     }
 
     return(
@@ -84,11 +93,15 @@ const ProfileCard = (props) => {
                     <Text style={{color:'white',textAlign:'center', fontSize:18,fontWeight:'bold'}}>387</Text>
                     <Text style={{color:'white',textAlign:'center'}}>Following</Text>
                 </View>
-                <View style={{position:'absolute', right:0, marginRight:10}}>
+                {
+                    props.newUser === undefined ?  
+                    <View style={{position:'absolute', right:0, marginRight:10}}>
                     <TouchableOpacity style={{backgroundColor:'#FDAA00', borderRadius:30, paddingRight:25, paddingLeft:25,paddingTop:5,paddingBottom:5}}>
                         <Text style={{color:'white'}}>2000$</Text>
-                    </TouchableOpacity>
-                </View>
+                    </TouchableOpacity> 
+                </View>: null
+                }
+               
             </CardItem>
             </Card>
         </ImageBackground>

@@ -18,23 +18,35 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, ListItem, Switch, Separator, Radio, List } from 'native-base';
 import HeaderTitle from '../components/HeaderTitle'
 import firebase from '../config'
 import {connect} from 'react-redux'
-import {logout, loading} from '../actions/auth'
+import {logout, loading, changeAppTheme} from '../actions/auth'
 import SplashScreen from './SplashScreen';
+import {useTheme} from '@react-navigation/native'
 
 const Settings = (props) => {
     const [notification, setNotification] = useState(false)
+    const [theme, setTheme] = useState(false)
+    const {colors} = useTheme()
+
+    useEffect(()=>{
+        changeTheme()
+    },[theme])
     const logout = () => {
         props.loading(true)
         props.logout()
     }
+
+    const changeTheme = (flag) => {
+        props.changeAppTheme(theme)
+        console.log('DARK THEME PROPS',props.isDark)
+    }
+
     return(
-        <View style={{backgroundColor:'#2F3034', flex:1}}>
+        <View style={{backgroundColor:colors.containerColor, flex:1}}>
             <HeaderTitle title="SETTINGS" navigation={props.navigation}/>
             <Content>
             <List style={{marginTop:20}}>
@@ -47,6 +59,19 @@ const Settings = (props) => {
                 </Body>
                 <Right style={{borderBottomWidth:0}}>
                     <Switch onValueChange={()=>setNotification(!notification)} value={notification}/>
+                </Right>
+                </ListItem>
+            </List>
+            <List style={{marginTop:20}}>
+                <ListItem avatar style={{borderBottomWidth:0}}>
+                <Left style={{borderBottomWidth:0}}>
+                    <Icon name="eye" color="white" size={20}/>
+                </Left>
+                <Body style={{borderBottomWidth:0}}>
+                    <Text style={{color:'white', fontSize:15}}>Black And White Theme</Text>
+                </Body>
+                <Right style={{borderBottomWidth:0}}>
+                    <Switch onValueChange={()=>{setTheme(!theme)}} value={theme}/>
                 </Right>
                 </ListItem>
             </List>
@@ -71,7 +96,8 @@ const Settings = (props) => {
 }
 
 const mapStateToProps = state => ({
-    isLoading: state.auth.loading
+    isLoading: state.auth.loading,
+    isDark : state.auth.darkTheme
 })
 
-export default connect(mapStateToProps,{logout, loading})(Settings);
+export default connect(mapStateToProps,{logout, loading, changeAppTheme})(Settings);

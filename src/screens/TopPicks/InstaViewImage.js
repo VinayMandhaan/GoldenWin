@@ -21,6 +21,7 @@ import Carousel from 'react-native-banner-carousel';
 import { Container, Content, Card, CardItem, Thumbnail, Left, Body, Right, Button} from 'native-base';
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 260;
+import {useTheme} from '@react-navigation/native'
 
 const images = [
     "https://images.unsplash.com/photo-1601371003376-025a0b87c5b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
@@ -44,8 +45,10 @@ var Data = [
 ]
 
 const InstaViewImage = (props) => {
+    const {colors} = useTheme()
     const [modalVisible, setModalVisible] = useState(false)
     const [imageUrl, setImageUrl] = useState('')
+    const [username, setUsername] = 'GoldenWin'
     const showModalFunction = (visible, image) => {
         setModalVisible(visible)
         setImageUrl(image)
@@ -68,17 +71,21 @@ const InstaViewImage = (props) => {
     )
     }else{
     return(
-        <View style={{flex:1,backgroundColor:'#2F3034'}}>
-        <View style={{backgroundColor:'#2F3034'}}>
+        <View style={{flex:1,backgroundColor:colors.containerColor}}>
+        <View style={{backgroundColor:colors.containerColor}}>
 
 
-            <ScrollView>
+            
             {
                 Data.map(val=>(
                 <Card transparent>
-                    <CardItem style={{backgroundColor:'#2F3034'}}>
+                    <CardItem style={{backgroundColor:colors.containerColor}}>
                     <Left>
-                    <Avatar.Image style={{marginRight:10}} size={45} source={require('../../assets/images/user.jpeg')} />
+                        <TouchableOpacity onPress={()=>props.navigation.navigate('Profile',{
+                            userProfile:'USER'
+                        })}>
+                            <Avatar.Image  style={{marginRight:10}} size={45} source={require('../../assets/images/user.jpeg')} />
+                        </TouchableOpacity>
                         <Body>
                         <Text style={{color:'white'}}>Golden Win</Text>
                         </Body>
@@ -94,7 +101,7 @@ const InstaViewImage = (props) => {
                         <Image source={val.img} style={{height: height-450, width: null, flex: 1}}/>
                     </CardItem>
                     </TouchableOpacity>
-                    <CardItem style={{backgroundColor:'#2F3034'}}>
+                    <CardItem style={{backgroundColor:colors.containerColor}}>
                     <Left>
                         <TouchableOpacity>
                             <Icon name="heart-outlined" color="#d3d3d3" size={30} style={{marginRight:15}}/>
@@ -122,7 +129,7 @@ const InstaViewImage = (props) => {
                 </Card>
                 ))
         }
-            </ScrollView>
+            
         </View>
         </View>
     )

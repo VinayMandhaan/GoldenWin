@@ -17,7 +17,6 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col } from 'native-base';
 import firebase from '../../config'
@@ -39,6 +38,8 @@ var Data = [
 
 const ProfileGallery = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const tabletHeight = 180
+    const mobileHeight = 120
     useEffect(()=>{
         firebase.auth().onAuthStateChanged(function(user){
             if(user){
@@ -60,7 +61,7 @@ const ProfileGallery = (props) => {
                         imgData:item.img
                     })}>
                     <ImageBackground
-                            style={{height:120,width:'100%'}}
+                            style={{height:width > 600 ? tabletHeight : mobileHeight,width:'100%'}}
                             source={item.img}
                             imageStyle={{borderRadius:10}}
                     >
@@ -85,7 +86,7 @@ const ProfileGallery = (props) => {
                 </View>
                 )}
                 //Setting the number of column
-                numColumns={3}
+                numColumns={width > 600 ? 4 : 3}
                 keyExtractor={(item, index) => index.toString()}
             />            
         </View>

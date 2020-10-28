@@ -16,7 +16,6 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import Followers from './Followers';
@@ -25,7 +24,6 @@ import Achievements from './Achievements';
 import Likes from './Likes';
 import UserGallery from './Gallery';
 import CustomIcon from '../../../src/CustomIcon'
-import StickyParallaxHeader from 'react-native-sticky-parallax-header'
 const UserProfileTabs = (props) => {
     const myIcon = (<Icon name="image" color="red" />)
     const [currentTab,setCurrentTab] = useState(0)

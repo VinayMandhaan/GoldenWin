@@ -44,6 +44,7 @@ var Data = [
 const OpenCard = (props) => {
     return(
         <>
+        <View style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
             {
             Data.map(val=>(
                 <Card style={styles.cardStyle}> 
@@ -56,13 +57,13 @@ const OpenCard = (props) => {
                                     (
                                         <View style={{flexDirection:'row', marginTop:15, marginLeft:5}}>
                                             <Text style={{color:'white', marginRight:5}}>Win up to</Text>
-                                            <Text style={{color:'white', fontSize:18, marginTop:-2}}>200 GP</Text>
+                                            <Text style={{color:'white', fontSize:18, marginTop:-3}}>200 GP</Text>
                                         </View>
                                     ):
                                     (
                                         <View style={{flexDirection:'row', marginTop:15, marginLeft:5}}>
                                             <Text style={{color:'white', marginRight:5}}>Win</Text>
-                                            <Text style={{color:'white', fontSize:18, marginTop:-2}}>240$</Text>
+                                            <Text style={{color:'white', fontSize:18, marginTop:-3}}>240$</Text>
                                         </View>
                                     )
                                 }
@@ -104,6 +105,7 @@ const OpenCard = (props) => {
                 </Card>  
             ))
             }
+        </View>
         </>
     )
 }
@@ -119,7 +121,8 @@ const styles = StyleSheet.create({
         marginLeft:3, 
         borderTopLeftRadius:10,
         borderBottomLeftRadius:10,
-        borderBottomRightRadius:10
+        borderBottomRightRadius:10,
+        width:width < 600 ? width:(width/2) - 6
     },
     imageStyle:{
         height:300,
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
     cardTitle:{
         color:'white',
         textAlign:'center',
-        marginTop:30,
+        marginTop:60,
     },
     rotatedView:{
         width:'15%',

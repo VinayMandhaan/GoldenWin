@@ -9,7 +9,8 @@ import {
     Dimensions,
     StyleSheet,
     FlatList,
-    Modal
+    Modal,
+    TouchableWithoutFeedback
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -18,10 +19,10 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import VotingHeader from '../../components/Voting/VotingHeader';
+import {useTheme} from '@react-navigation/native'
 // var Data = [
 //     {
 //         id:1,
@@ -75,8 +76,10 @@ import VotingHeader from '../../components/Voting/VotingHeader';
 //     },
     
 // ]
-
 const Voting = (props) => {
+    const {colors} = useTheme()
+    const tabletHeight = 180
+    const mobileHeight = 120
     var [data, setData] = useState([
         {
             id:1,
@@ -138,13 +141,13 @@ const Voting = (props) => {
             url:require('../../assets/images/laptop.jpg'),
             clicked:false
         }
-        
     ])
     const [votingImages, setVotingImages] = useState([])
     const [validateButton, setValidateButton] = useState(false)
     const [unselect, setUnselect] = useState(false)
     const [fiveImages, setFiveImages] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    const [displayScroll, setDisplayScroll] = useState(false)
     const [fullImg, setFullImg] = useState('')
     const selectTopImages = (val) => {
         
@@ -165,6 +168,7 @@ const Voting = (props) => {
                 val.clicked = true
                 console.log('VOTING IMAGES',votingImages)
                 console.log(votingImages.length)
+                
                 //   if(votingImages.length === 3){
                 //       setValidateButton(true)
                 //       setFiveImages(false)
@@ -184,7 +188,7 @@ const Voting = (props) => {
         //    })
         // }
     }
-
+    
     const LongPress = (img) => { 
         setShowModal(true)
         setFullImg(img)
@@ -196,44 +200,75 @@ const Voting = (props) => {
         console.log('RELEASED')
     }
 
+    const find_dimesions = (width,height) => {
+        const deviceHeight = Dimensions.get("window").height;
+        const deviceWidth = Dimensions.get("window").width;
+        const contentHeight = deviceHeight - 50
+        console.log(" view width:" + width + "  " + "view height:" + height);
+        console.log(
+            "device width:" + deviceWidth + "  " + " device height:" + deviceHeight
+        );
+        if(height > contentHeight - 50){
+            setDisplayScroll(true)
+        }else{
+            setDisplayScroll(false)
+        }
+    }
+
+
     return(
-        <View style={{flex:1, backgroundColor:'white'}}>
+       
+        <View style={{flex:1, backgroundColor:'white'}} >
+        <ScrollView>
             { showModal ? 
+           
             <Modal
                 transparent={true}
                 animationType={'fade'}
                 visible={showModal}
                 onRequestClose={()=>onRelease()}
-            
             >
-                <View style={{backgroundColor:'rgba(255,255,255,0.7)', flex:1, alignItems:'center'}}>
+               <TouchableWithoutFeedback onPress={()=>onRelease()}>
+                <View style={{backgroundColor:'rgba(255,255,255,0.7)', flex:1}}>
                 <View style={{position:'absolute', top:10, right:10}}>
-                    <TouchableOpacity onPress={()=>onRelease()}>
+                    {/* <TouchableOpacity onPress={()=>onRelease()}>
                         <Icon name="cross" color="black" size={20}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
-                <View style={{position:'absolute', top:height-450}}>
-                    <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{props.navigation.navigate('ImageView',{
+                <View style={{position:'absolute', top:height-580, width:'100%', backgroundColor:'black', paddingTop:15}}>
+                    {/* <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{props.navigation.navigate('ImageView',{
                         imgData:fullImg
                     }) , setShowModal(false)}}>
                         <Text style={{fontSize:20, marginBottom:20, fontWeight:'bold'}}>View Full Image</Text>
                         <Icon name="images" size={25} style={{marginLeft:20}}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <TouchableWithoutFeedback>
+                    <View>
+                        <Image source={fullImg} style={{height:320, width:'98%', alignSelf:'center'}}/>
+                    </View>
+                    </TouchableWithoutFeedback>
+                    <View style={{alignItems:'center', marginTop:15}}>
                     <TouchableOpacity style={{flexDirection:'row'}}>
-                        <Text style={{fontSize:20, fontWeight:'bold'}}>Report Abuse</Text>
-                        <MaterialIcons name="report" size={25} style={{marginLeft:40}}/>
+                        <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>Report Abuse</Text>
+                        <MaterialIcons name="report" color="white" size={25} style={{marginLeft:40, marginBottom:10}}/>
                     </TouchableOpacity>
+                    </View>
                 </View>
                 </View>
-            </Modal> : null
+                </TouchableWithoutFeedback>
+                
+            </Modal>: null
             }
             <VotingHeader navigation={props.navigation}/>
             <View style={{margin:10, alignSelf:'center', marginBottom:20}}>
                 <Text style={{fontWeight:'bold'}}>Select Top 5 Images</Text>
             </View>
-            <Card style={{borderRadius:10, marginTop:-8, marginLeft:0,marginRight:0}}>
+            <Card style={{borderRadius:10, marginTop:-8, marginLeft:0,marginRight:0, marginBottom:90}}>
             <FlatList
                 data={data}
+                onContentSizeChange={(width, height) => {
+                    find_dimesions(width,height)
+                }}
                 renderItem={({ item }) => (
                 <View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
                     {/* <TouchableOpacity onPress={()=>setData(
@@ -244,7 +279,7 @@ const Voting = (props) => {
                     )}> */}
                     <TouchableOpacity onLongPress={()=>LongPress(item.url)} onPress={()=>selectTopImages(item)}>
                         <ImageBackground
-                            style={{height:120,width:'100%', borderRadius:10}}
+                            style={{height:width > 600 ? tabletHeight : mobileHeight,width:'100%', borderRadius:10}}
                             source={item.url}
                         >
                             { 
@@ -265,10 +300,23 @@ const Voting = (props) => {
                 numColumns={3}
                 keyExtractor={(item, index) => index.toString()}
             />
+            {
+                displayScroll ? 
+                (
+                <View style={{position:'absolute', bottom:height-600, alignItems:'center', width:'100%'}}>
+                <TouchableOpacity onPress={()=>props.navigation.navigate('VotingImages',{
+                    Data:votingImages})}>
+                    <Feather name="chevrons-down" color="white" size={20} style={{textAlign:'center'}}/>   
+                    <Text style={{color:'white'}}>Scroll To Confirm Your Selection</Text>         
+                </TouchableOpacity>
+                </View>
+                ):
+                null
+            }
             </Card>
             {
                 votingImages.length === 5 ? 
-                <View style={{position:'absolute',bottom:0, backgroundColor:'#FDAA00', width:'100%', borderTopRightRadius:10, borderTopLeftRadius:10}}>
+                <View style={{position:'absolute', bottom:0 ,backgroundColor:colors.btnColor, width:'100%', borderTopRightRadius:10, borderTopLeftRadius:10}}>
                 {/* <TouchableOpacity onPress={()=>props.navigation.navigate('VotingImages',{
                     Data:votingImages})}>
                     <Feather name="chevrons-down" color="black" size={20} style={{textAlign:'center'}}/>   
@@ -276,12 +324,17 @@ const Voting = (props) => {
                 </TouchableOpacity> */}
                 <TouchableOpacity style={{alignItems:'center', padding:10}} onPress={()=>props.navigation.navigate('VotingImages',{
                     Data:votingImages})}>
-                    <Text style={{color:'white', fontWeight:'bold'}}>Confirm To Continue</Text>
+                    <Text style={{color:colors.btnTxt, fontWeight:'bold'}}>Confirm To Continue</Text>
                 </TouchableOpacity>
                 </View> : null 
             }
+            </ScrollView> 
+
         </View>
+        
     )
+
+
 }
 
 export default Voting

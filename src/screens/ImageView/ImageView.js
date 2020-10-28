@@ -15,14 +15,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item, Input} from 'native-base';
 import TopHeader from '../../components/TopHeader'
 import firebase from '../../config'
+import {useTheme} from '@react-navigation/native'
+import { Switch } from 'react-native-paper';
+
 
 const ImageView = (props) => {
+    const {colors} = useTheme()
     const { imgData } = props.route.params;
+    const [showStatus, setShowStatus] = useState(false)
     const [isLoggedIn,setIsLoggedIn] = useState(false)
     useEffect(()=>{
         firebase.auth().onAuthStateChanged(function(user){
@@ -36,7 +40,7 @@ const ImageView = (props) => {
         })
     })
     return(
-        <View style={{flex:1,backgroundColor:'#2F3034'}}>
+        <View style={{flex:1,backgroundColor:colors.secondaryColor}}>
             <TopHeader navigation={props.navigation} loggedIn={isLoggedIn}/>
             <ImageBackground source={imgData} imageStyle={{borderRadius:25}} style={{height:height-400}}>
                 <View style={{position:'absolute', top:10, right:15}}>
@@ -51,9 +55,9 @@ const ImageView = (props) => {
             </ImageBackground>
                 <View>
                 <Card transparent>
-                <CardItem style={{backgroundColor:'#2F3034'}}>
+                <CardItem style={{backgroundColor:colors.secondaryColor}}>
                 <Left>
-                    <View style={styles.userImgView}>
+                    <View style={[styles.userImgView, {borderColor:colors.secondaryColor}]}>
                         <Avatar.Image size={95} source={require('../../assets/images/user.jpeg')} />
                     </View>
                     <Body style={{marginTop:-20}}>
@@ -75,28 +79,50 @@ const ImageView = (props) => {
                 {/* <CardItem style={{backgroundColor:'#2F3034'}}>
                     <Text style={{color:'white'}}>A beautiful sunset at Baltic Sea with a flying seagulls</Text>
                 </CardItem> */}
-                <CardItem style={styles.userInfoCard}>
-                    <View style={{flexDirection:'row', marginLeft:30}}>
+                <CardItem style={[styles.userInfoCard,{backgroundColor:colors.secondaryColor}]}>
+                    {/* <View style={{flexDirection:'row'}}> */}
                         {/* <Text style={styles.userInfoTxt}>Info</Text> */}
-                        <Text style={styles.userInfoTxt}>Published</Text>
+                        {/* <Text style={styles.userInfoTxt}>Published</Text>
                         <Text style={styles.userInfoTxt}>Views</Text>
                         <Text style={styles.userInfoTxt}>Downloads</Text>
                         <Text style={styles.userInfoTxt}>Likes</Text>
+                    </View> */}
+                    <View style={{flexDirection:'column', marginRight:20, alignItems:'center'}}>
+                        <Text style={{textAlign:'center', color:'#4A4A4A'}}>Published</Text>
+                        <Text style={{textAlign:'center', color:'white'}}>August</Text>
+                    </View>
+                    <View style={{flexDirection:'column', marginRight:20, alignItems:'center'}}>
+                        <Text style={{textAlign:'center', color:'#4A4A4A'}}>Views</Text>
+                        <Text style={{textAlign:'center', color:'white'}}>200</Text>
+                    </View>
+                    <View style={{flexDirection:'column', marginRight:20, alignItems:'center'}}>
+                        <Text style={{textAlign:'center', color:'#4A4A4A'}}>Downloads</Text>
+                        <Text style={{textAlign:'center', color:'white'}}>300</Text>
+                    </View>
+                    <View style={{flexDirection:'column', marginRight:20, alignItems:'center'}}>
+                        <Text style={{textAlign:'center', color:'#4A4A4A'}}>Likes</Text>
+                        <Text style={{textAlign:'center', color:'white'}}>200</Text>
                     </View>
                 </CardItem>
-                <CardItem style={styles.imgDetailsCard}>
-                    <View style={{flexDirection:'row', marginLeft:35}}>
+                {/* <CardItem style={styles.imgDetailsCard}> */}
+                    {/* <View style={{flexDirection:'row'}}> */}
                         {/* <Text style={styles.imgDetails}>Info</Text> */}
-                        <Text style={styles.imgDetails}>Aug 4,19</Text>
+                        {/* <Text style={styles.imgDetails}>Aug 4,19</Text>
                         <Text style={styles.imgDetails}>23044</Text>
                         <Text style={styles.imgDetails}>544</Text>
                         <Text style={styles.imgDetails}>200</Text>
-                    </View>
-                </CardItem>
+                    </View> */}
+                {/* </CardItem> */}
             </Card>
+            <View style={{alignSelf:'center', marginTop:20}}>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={{color:'white'}}>Downloadable Status</Text>
+                    <Switch color="#FDAA00" onValueChange={()=>setShowStatus(!showStatus)} value={showStatus} style={{marginRight:50}}/>
+                </View>
+            </View>
             </View>
             {
-                isLoggedIn ? 
+                isLoggedIn && showStatus ? 
                 <View style={styles.btnView}>
                     <TouchableOpacity>
                         <View style={{flexDirection:'row', alignSelf:'center'}}>
@@ -157,7 +183,9 @@ const styles = StyleSheet.create({
     userInfoTxt:{
         color:'#4A4A4A',
         textAlign:'center',
-        marginRight:25
+        marginRight:10
+        
+       
     },
     imgDetailsCard:{
         backgroundColor:'#2F3034',
@@ -165,7 +193,9 @@ const styles = StyleSheet.create({
     },
     imgDetails:{
         color:'white',
-        marginRight:40
+        textAlign:'center',
+        marginRight:25
+        
     },
     btnView:{
         width:'95%', 

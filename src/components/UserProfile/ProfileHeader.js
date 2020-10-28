@@ -17,13 +17,13 @@ import Divider from 'react-native-divider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import { Input } from 'react-native-elements';
 import {Avatar, TextInput} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item} from 'native-base';
-
+import {useTheme} from '@react-navigation/native'
 
 const ProfileHeader = (props) => {
+    const {colors} = useTheme()
     const [modalVisible,setModalVisible] = useState(false)
     
     const showModalFunction = (visible) => {
@@ -37,7 +37,7 @@ const ProfileHeader = (props) => {
                 visible={modalVisible}
                 onRequestClose={()=>showModalFunction(false)}
             >
-                <View style={{flex:1, backgroundColor:'#2F3034'}}>
+                <View style={{flex:1, backgroundColor:colors.containerColor}}>
                     <View style={{alignItems:'center', position:'absolute', top:250, right:0, left:0}}>
                         <Avatar.Image style={{marginRight:10}} size={75} source={require('../../assets/images/user.jpeg')} />
                         <View style={{marginTop:30}}>

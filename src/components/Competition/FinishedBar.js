@@ -16,19 +16,21 @@ const height = Dimensions.get('window').height
 import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import Divider from 'react-native-divider';
 import * as Progress from 'react-native-progress';
+import {useTheme} from '@react-navigation/native'
 
 const FinishedBar = () => {
+    const {colors} = useTheme()
     const [firstPick, setFirstPick] = useState(0.3)
     const [topPick, setTopPick] = useState(0.5)
     return(
         <View>
             <View style={{marginBottom:10}}>
                 <Text style={{color:'white', fontSize:12, marginBottom:5}}>First Pick</Text>
-                <Progress.Bar borderRadius={0} borderColor="#FFFFFF" height={10} progress={firstPick} width={100} color="#FDAA00" />
+                <Progress.Bar borderRadius={0} borderColor={colors.secondaryColor} height={10} progress={firstPick} width={100} color={colors.primaryColor} />
             </View>
             <View>
                 <Text style={{color:'white', fontSize:12, marginBottom:5}}>Top Five Pick</Text>
-                <Progress.Bar borderRadius={0} borderColor="#FFFFFF" height={10} progress={topPick} width={100} color="#FDAA00" />
+                <Progress.Bar borderRadius={0} borderColor={colors.secondaryColor} height={10} progress={topPick} width={100} color={colors.primaryColor} />
             </View>
         </View>
     )

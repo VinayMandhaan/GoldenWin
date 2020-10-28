@@ -19,11 +19,11 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading} from 'native-base';
 import Gallery from 'react-native-image-gallery';
 import { Switch } from 'react-native-paper';
+import {useTheme} from '@react-navigation/native'
 var Data = [
     {
         source:require('../../assets/images/nature.jpeg'),
@@ -96,18 +96,33 @@ var Data = [
     {
         source:require('../../assets/images/nature2.jpeg'),
         dimensions: { width: 540, height: 720 }
-    }
+    },
+    {
+        source:require('../../assets/images/nature1.jpeg'),
+        dimensions: { width: 540, height: 720 }
+    },
+    {
+        source:require('../../assets/images/nature2.jpeg'),
+        dimensions: { width: 540, height: 720 }
+    },
+    {
+        source:require('../../assets/images/camera.jpeg'),
+        dimensions: { width: 540, height: 720 }
+    },
+
 ]
 
 
 
 
 const UserGallery = (props) => {
+    const {colors} = useTheme()
     const [imageUrl,setImageUrl] = useState(0)
     const [modalVisible, setModalVisible] = useState(false)
-    const [dropdownValue, setDropdownValue] = useState('')
+    const [dropdownValue, setDropdownValue] = useState('Views')
     const [showStatistics, setShowStatistics] = useState(false)
-    
+    const tabletHeight = 180
+    const mobileHeight = 120
     const showModalFunction = (visible, imageUrl) => {
         setImageUrl(imageUrl)
         setModalVisible(visible)
@@ -144,7 +159,8 @@ const UserGallery = (props) => {
         )
     }else{
         return(
-            <View style={showStatistics ? styles.statsContainer : styles.mainContainer}>
+            <View style={[showStatistics ? styles.statsContainer : styles.mainContainer, {backgroundColor:colors.tabContentColor}]}>
+                <ScrollView>
                 <View>
                 <View style={{marginTop:5, marginBottom:5}}>
                     <View style={{flexDirection:'row'}}>
@@ -168,9 +184,10 @@ const UserGallery = (props) => {
                                 //     <Picker.Item label="Downloadable Status" value="Status" />
                                 // </Picker>
                                 <Picker
-                                    style={{ width: '50%' }}
+                                    style={{ width: '50%', color:colors.imgIcon}}
                                     selectedValue={dropdownValue}
                                     onValueChange={(text)=>setDropdownValue(text)}
+                                    
                                 >
                                     <Picker.Item label="Number Of Views" value="Views" />
                                     <Picker.Item label="Number Of Likes" value="Likes" />
@@ -182,10 +199,9 @@ const UserGallery = (props) => {
                         }
                     </View>
                 </View>
-                
+               
                 <FlatList
                     data={Data}
-                    
                     renderItem={({ item, index }) => (
                     <View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
                         <TouchableOpacity  onPress={()=>props.navigation.navigate('ImageView',{
@@ -193,13 +209,13 @@ const UserGallery = (props) => {
                         })}>
                          
                         <ImageBackground
-                            style={{height:120,width:'100%'}}
+                            style={{height:width > 600 ? tabletHeight : mobileHeight,width:'100%'}}
                             source={item.source}
                         >
                             {
                                 dropdownValue === 'Views' && showStatistics ? 
                                 (
-                                    <View style={{position:'absolute', bottom:10, left:50, backgroundColor:'grey', borderRadius:25, width:'30%'}}>
+                                    <View style={{position:'absolute', bottom:10, left:width > 600 ? 100: 50, backgroundColor:'grey', borderRadius:25, width:'30%'}}>
                                         <Text style={{fontWeight:'bold', padding:3, textAlign:'center'}}>200</Text>
                                     </View>
                                 ) : null
@@ -207,9 +223,25 @@ const UserGallery = (props) => {
                             {
                                 dropdownValue === 'Status' && showStatistics ? 
                                 (
-                                    <View style={{position:'absolute', top:50, left:50}}>
+                                    <View style={{position:'absolute', bottom:10, left:width > 600 ? 130: 50}}>
                                         <Icon name="download" color="white" size={20}/>
                                     </View> 
+                                ) : null
+                            }
+                            {
+                                dropdownValue === 'Likes' && showStatistics ? 
+                                (
+                                    <View style={{position:'absolute', bottom:10, left:width > 600 ? 100: 50, backgroundColor:'#FDAA00', borderRadius:25, width:'30%'}}>
+                                        <Text style={{fontWeight:'bold', padding:3, textAlign:'center'}}>200</Text>
+                                    </View>
+                                ) : null
+                            }
+                            {
+                                dropdownValue === 'Downloads' && showStatistics ? 
+                                (
+                                    <View style={{position:'absolute', bottom:10, left:width > 600 ? 100: 50, backgroundColor:'grey', borderRadius:25, width:'30%'}}>
+                                        <Text style={{fontWeight:'bold', padding:3, textAlign:'center'}}>200</Text>
+                                    </View>
                                 ) : null
                             }
                             {/* <View style={{position:'absolute', top:50, left:50}}>
@@ -260,7 +292,9 @@ const UserGallery = (props) => {
                     keyExtractor={(item, index) => index.toString()}
                     
                 />
+               
             </View>
+            </ScrollView>
             </View>
         )
     }
@@ -287,11 +321,11 @@ const styles = StyleSheet.create({
     statsContainer:{
         flex:1, 
         marginBottom:10,
-        backgroundColor:'white'
+        backgroundColor:'white',
     },
     mainContainer:{
         flex:1, 
-        marginBottom:10,
-        backgroundColor:'white'
+        backgroundColor:'white',
+       
     }
 });

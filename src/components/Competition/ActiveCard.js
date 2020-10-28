@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Dimensions,
     StyleSheet,
-    Button
+    Button,
+    Modal
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo';
 const width = Dimensions.get('window').width;
@@ -17,6 +18,7 @@ import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import Divider from 'react-native-divider';
 import ProgressGraph from './ProgressGraph'
 import VoterGraph from './VoterGraph'
+import {useTheme} from '@react-navigation/native'
 
 var Data = [
     {
@@ -46,9 +48,35 @@ var Data = [
 ]
 
 const ActiveCard = (props) => {
- 
+    const {colors} = useTheme()
+    const [modalVisible, setModalVisible] = useState(false)
+    
+    const showModal = (visible) => {
+        setModalVisible(visible)
+    }
     return(
-        <View style={{flex:1, marginBottom:20}}>
+        <View style={{flex:1, backgroundColor:colors.containerColor, marginBottom:20}}>
+        <ScrollView>
+        {
+            modalVisible ? 
+            (
+                <Modal
+                    transparent={true}
+                    animationType={'fade'}
+                    visible={modalVisible}
+                    onRequestClose={()=>showModal(false)}
+                >
+                    <View style={{backgroundColor:'rgba(255,255,255,0.7)', flex:1}}>
+                        <ImageBackground source={require('../../assets/images/nature.jpeg')} imageStyle={{opacity:0.5}} style={{width:'100%', flex:1}}>
+                        <TouchableOpacity onPress={()=>showModal(false)}>
+                            <Text>Click Me</Text>
+                        </TouchableOpacity>
+                        </ImageBackground>
+                    </View>
+                </Modal>
+            ): null
+        }
+        <View style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
         {
             Data.map(val=>(
                 <Card style={styles.cardStyle} onPress={!val.inProgress ? ()=>props.navigation.navigate('Enrolled'): ()=>props.navigation.navigate('ProgressComp')}>
@@ -56,12 +84,12 @@ const ActiveCard = (props) => {
                     <Card.Content>
                         <Title style={styles.cardTitle}>{val.title}</Title>
                         <Text style={{textAlign:'center', color:'white', fontWeight:'bold', fontSize:15}}>{val.category}</Text>
-                        <View style={{width:width-40, alignSelf:"center",}}>
+                        {/* <View style={{width:400, alignSelf:"center",}}> */}
                             <Divider orientation={"center"} color={'#fff'}>{val.subTitle}</Divider>
-                        </View>
+                        {/* </View> */}
                     </Card.Content>
-                    <View style={styles.rotatedView}>
-                        <Text style={styles.priceText}>{val.price}</Text>
+                    <View style={[styles.rotatedView, {backgroundColor:colors.primaryColor}]}>
+                        <Text style={[styles.priceText, {color:colors.btnTxt}]}>{val.price}</Text>
                     </View>    
                     <Card.Actions>
                         <View style={styles.graphView}>
@@ -83,11 +111,11 @@ const ActiveCard = (props) => {
                     </View>
                     {
                         !val.inProgress ? 
-                        <View style={{width:'100%', height:50,justifyContent:'center',alignItems:'center', position:'absolute', bottom:0, backgroundColor:'#FE9700', borderBottomRightRadius:10, borderBottomLeftRadius:10}}>
+                        <View style={{width:'100%', height:50,justifyContent:'center',alignItems:'center', position:'absolute', bottom:0, backgroundColor:colors.btnColor, borderBottomRightRadius:10, borderBottomLeftRadius:10}}>
                             <TouchableOpacity>
                                 <View style={{flexDirection:'row'}}>
-                                    <Icon name="log-out" color="white" size={20}/>
-                                    <Text style={{color:'white', fontSize:15, marginLeft:5}}>EXIT COMPETITION</Text>
+                                    <Icon name="log-out" color={colors.btnTxt} size={20}/>
+                                    <Text style={{color:colors.btnTxt, fontSize:15, marginLeft:5}}>EXIT COMPETITION</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -98,6 +126,8 @@ const ActiveCard = (props) => {
                 </Card>   
             ))
         }
+        </View>
+        </ScrollView>
         </View>
     )
 }
@@ -112,7 +142,8 @@ const styles = StyleSheet.create({
         marginTop:5, 
         marginLeft:3, 
         borderTopLeftRadius:10,
-        borderRadius:10
+        borderRadius:10,
+        width:width < 600 ? width:(width/2) - 6
     },
     imageStyle:{
         height:300,

@@ -15,13 +15,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar, Snackbar} from 'react-native-paper'
 import { Container, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item, Input} from 'native-base';
 import ProfileTabs from '../../components/Profile/ProfileTabs'
 import HeaderBar from '../../components/Profile/HeaderBar'
 import ProfileAchievement from '../../components/Profile/ProfileAchievement';
 import firebase from '../../config'
+import {useTheme} from '@react-navigation/native'
 // let itemsRef = firebase.database().ref('/users');
 firebase.firestore().settings({ experimentalForceLongPolling: true });
 var db = firebase.firestore()
@@ -44,7 +44,7 @@ const Data = [
 ]
 
 const Profile = (props) => {
-
+    const {colors} = useTheme()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [users, setUsers] = useState([])
     // const [users, setUsers] = useState([])
@@ -181,17 +181,19 @@ const Profile = (props) => {
     //     });
     // }
 
+    const tabletHeight = 520
+    const mobileHeight = 420
     return(
        
-        <View style={{flex:1,backgroundColor:'#2F3034'}}>
+        <View style={{flex:1,backgroundColor:colors.containerColor}}>
           <HeaderBar navigation={props.navigation}/>
             <ScrollView>
         {
             Data.map(val=>(
-            <View style={{height:420, marginBottom:42}}>
+            <View style={{height:width > 600 ? tabletHeight : mobileHeight, marginBottom:42}}>
                 <Card transparent>
                 <TouchableOpacity onPress={()=>props.navigation.navigate('Profile')}>
-                <CardItem style={{backgroundColor:'#2F3034'}}>
+                <CardItem style={{backgroundColor:colors.containerColor}}>
                 <Left>
                 <Avatar.Image size={75} source={require('../../assets/images/user.jpeg')} />
                     <Body style={{borderTopWidth:0, borderBottomWidth:0}}>

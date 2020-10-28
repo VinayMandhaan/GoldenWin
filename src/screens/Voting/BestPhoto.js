@@ -17,11 +17,12 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import VotingHeader from '../../components/Voting/VotingHeader';
 import TopHeader from '../../components/TopHeader'
+import {useTheme} from '@react-navigation/native'
+
 var Data = [
     {
         url:require('../../assets/images/nature.jpeg')
@@ -29,10 +30,11 @@ var Data = [
 ]
 
 const BestPhoto = (props) => {
+    const {colors} = useTheme()
     const { imgData } = props.route.params;
     console.log('IMAGE IN BEST PHOTO',imgData)
     return(
-        <View style={{backgroundColor:'#2F3034', flex:1}}>
+        <View style={{backgroundColor:colors.containerColor, flex:1}}>
             <VotingHeader navigation={props.navigation} />
             <View style={{flexDirection:'row', alignSelf:'center', marginTop:15,marginBottom:15}}>
                 <Icon name="check" color="white" size={20} style={{backgroundColor:'green', borderRadius:90/2}}/>
@@ -54,9 +56,9 @@ const BestPhoto = (props) => {
                     <Text style={{color:'white',fontSize:18, textAlign:'center',fontWeight:'bold'}}>250</Text>
                 </View>
             </View>
-            <View style={{position:'absolute', bottom:0, backgroundColor:'#222226', width:'100%', borderTopRightRadius:10,borderTopLeftRadius:10}}>
+            <View style={{position:'absolute', bottom:0, backgroundColor:colors.btnColor, width:'100%', borderTopRightRadius:10,borderTopLeftRadius:10}}>
                 <TouchableOpacity style={{padding:15}} onPress={()=>props.navigation.navigate('Main')}>
-                    <Text style={{textAlign:'center', fontWeight:'bold', color:'white'}}>Continue</Text>
+                    <Text style={{textAlign:'center', fontWeight:'bold', color:colors.btnTxt}}>Continue</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -19,10 +19,12 @@ import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import HeaderTitle from '../../components/HeaderTitle'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import VoterGraph from '../../components/Competition/VoterGraph';
+import {useTheme} from '@react-navigation/native'
 const ProgressComp = (props) => {
+    const {colors} = useTheme()
     const [fillCircle, setFillCircle] = useState(40)
     return(
-        <View style={{backgroundColor:'#2F3034', flex:1}}>
+        <View style={{backgroundColor:colors.containerColor, flex:1}}>
             <HeaderTitle title="IN PROGRESS COMPETITIONS" navigation={props.navigation}/>
             <Card style={{borderRadius:10, marginTop:-5}}>
                 <ImageBackground source={require('../../assets/images/nature3.jpeg')} imageStyle={{borderRadius:10}} style={{height:height-500}}/>

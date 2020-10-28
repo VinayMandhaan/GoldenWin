@@ -15,12 +15,13 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
 import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import Divider from 'react-native-divider';
-// import Speedometer from 'react-native-speedometer-chart';
 import RNSpeedometer from 'react-native-speedometer'
+import {useTheme} from '@react-navigation/native'
 
 
 const VoterGraph = (props) => {
-    const [fillGraph, setFillGraph] = useState(35)
+  const {colors} = useTheme()
+    const [fillGraph, setFillGraph] = useState(30)
 
     // useEffect(()=>{
     //     var id = setInterval(() => {
@@ -34,6 +35,8 @@ const VoterGraph = (props) => {
             <Text style={{textAlign:'center', marginBottom:5, color:'white'}}>Vote Progress</Text>
             <RNSpeedometer 
             value={fillGraph} 
+            
+            needleImage={require('../../assets/images/needle.png')}
             minValue={0} 
             maxValue={100}  
             size={props.size}  
@@ -41,26 +44,27 @@ const VoterGraph = (props) => {
             easeDuration={800}
             defaultValue={0}
             // halfCircleStyle={{backgroundColor:'#FE9700'}}
-            innerCircleStyle={{backgroundColor:'white'}}
+            innerCircleStyle={{backgroundColor:colors.voterInnerCircle}}
             labelStyle={{display:'none'}}
+            
             labels={[
                   { 
-                    activeBarColor: fillGraph > 5  ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph > 5  ? colors.primaryColor : colors.secondaryColor,
                   },
                   {
-                    activeBarColor: fillGraph > 20 ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph >= 30 ? colors.primaryColor : colors.secondaryColor,
                   },
                   {
-                    activeBarColor: fillGraph > 30  ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph > 40  ? colors.primaryColor : colors.secondaryColor,
                   },
                   {
-                    activeBarColor: fillGraph > 50  ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph > 50  ? colors.primaryColor : colors.secondaryColor,
                   },
                   {
-                    activeBarColor: fillGraph > 80  ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph > 80  ? colors.primaryColor : colors.secondaryColor,
                   },
                   {
-                    activeBarColor: fillGraph === 100  ? '#FE9700' : '#2F3034',
+                    activeBarColor: fillGraph === 100  ? colors.primaryColor : colors.secondaryColor,
                   },
             ]}
             />

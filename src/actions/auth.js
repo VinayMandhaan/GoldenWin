@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, EMAIL_VERIFIED, FORGOT_PASSWORD, LOGOUT, LOADING } from './types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, EMAIL_VERIFIED, FORGOT_PASSWORD, LOGOUT, LOADING, DARK_THEME } from './types'
 import firebase from '../config'
 import Toast from 'react-native-simple-toast';
 firebase.firestore().settings({ experimentalForceLongPolling: true });
@@ -8,6 +8,13 @@ export const loading = (flag) => async dispatch => {
     dispatch({
         type: LOADING,
         payload: flag
+    })
+}
+
+export const changeAppTheme = (flag) => async dispatch => {
+    dispatch({
+        type: DARK_THEME,
+        payload:flag
     })
 }
 
@@ -92,9 +99,6 @@ export const register = (email, password, name) => async dispatch => {
         Toast.show(err.message, Toast.LONG);
     })
 }
-
-
-
 
 export const forgot_password = (email) => async dispatch => {
     firebase.auth().sendPasswordResetEmail(email).then(function (res) {

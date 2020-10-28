@@ -17,18 +17,20 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import TopHeader from '../../components/TopHeader'
+import {useTheme} from '@react-navigation/native'
+
 const CardDetails = (props) => {
+    const {colors} = useTheme()
     return(
-        <View style={{backgroundColor:'#2F3034', flex:1}}>
+        <View style={{backgroundColor:colors.containerColor, flex:1}}>
             <TopHeader navigation={props.navigation}/>
             <View style={styles.paymentView}>
-                <View style={styles.paymentMethodPayPal}>
+                <View style={[styles.paymentMethodPayPal, {backgroundColor:colors.paymentHeader}]}>
                     <Icon name="credit-card" size={40} color="#707070" style={{marginLeft:20}}/>
-                    <Text style={styles.paymentTxt}>Credit Card Details</Text>
+                    <Text style={[styles.paymentTxt, {color:colors.btnTxt}]}>Credit Card Details</Text>
                 </View>
                 <View style={{marginTop:40}}>
                         <Input

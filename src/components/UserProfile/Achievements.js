@@ -16,12 +16,13 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import Graph from './Graph';
+import {useTheme} from '@react-navigation/native'
 
 const Achievements = () => {
+    const {colors} = useTheme()
     const [activePhotographer, setActivePhotographer] = useState(true)
     const [activeVoter, setActiveVoter] = useState(false)
 
@@ -35,7 +36,7 @@ const Achievements = () => {
         setActivePhotographer(false)
     }
     return(
-        <View style={{flex:1, backgroundColor:'white', marginBottom:5}}>
+        <View style={{flex:1, backgroundColor:colors.tabContentColor, marginBottom:5, height:height}}>
             <ScrollView>
             <View>
                 <TouchableOpacity onPress={()=>changePhotographer()}>

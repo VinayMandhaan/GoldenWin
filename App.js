@@ -5,8 +5,10 @@ import {Provider} from 'react-redux'
 import store from './src/store'
 import Routes from './src/routes/Routes'
 import firebase from './src/config'
+import {useTheme} from '@react-navigation/native'
 
 export default function App() {
+  const {colors} = useTheme()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   useEffect(()=>{
     firebase.auth().onAuthStateChanged(function(user){
@@ -19,7 +21,6 @@ export default function App() {
   })
     return(
       <Provider store={store}>
-        <StatusBar translucent={isLoggedIn ? false:true} backgroundColor={isLoggedIn ? '#2F3034' : 'transparent'} />
         <Routes/>
       </Provider>
     )

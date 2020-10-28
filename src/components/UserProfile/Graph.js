@@ -16,7 +16,6 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import { LineChart } from "react-native-chart-kit";
@@ -28,6 +27,8 @@ var Data = [
 ]
 
 const Graph = () => {
+    const tabletHeight = 420
+    const mobileHeight = 220
     return(
         <View>
             {
@@ -52,7 +53,7 @@ const Graph = () => {
                         }}
                 
                         width={Dimensions.get("window").width} // from react-native
-                        height={220}
+                        height={width > 600 ? tabletHeight : mobileHeight}
                         yAxisInterval={1} // optional, defaults to 1
                         chartConfig={{
                         backgroundColor: "white",

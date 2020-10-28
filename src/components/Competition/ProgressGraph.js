@@ -16,9 +16,10 @@ const height = Dimensions.get('window').height
 import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import Divider from 'react-native-divider';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-
+import {useTheme} from '@react-navigation/native'
 
 const ProgressGraph = (props) => {
+    const {colors} = useTheme()
     const [fillCircle,setFillCircle] = useState(35)
     return(
         <View>
@@ -26,7 +27,7 @@ const ProgressGraph = (props) => {
                 size={props.size}
                 width={props.graphWidth}
                 fill={fillCircle}
-                tintColor="#FE9700"
+                tintColor={colors.primaryColor}
                 backgroundColor="#3d5875">
                 {
                     (fill) => (

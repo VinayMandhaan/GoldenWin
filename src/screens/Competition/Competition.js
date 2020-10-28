@@ -20,24 +20,25 @@ import ActiveCard from '../../components/Competition/ActiveCard'
 import OpenCard from '../../components/Competition/OpenCard';
 import ProgressCard from '../../components/Competition/ProgressCard';
 import Finished from '../../components/Competition/Finished';
-
+import {useTheme} from '@react-navigation/native'
 
 
 const Competition = (props) => {
+    const {colors} = useTheme()
     return(
         <View style={{flex:1}}>
         <ScrollView>
-        <Tabs tabBarUnderlineStyle={{height:2,justifyContent:'center', backgroundColor:'#FE9700'}}>
-          <Tab heading="Active" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: "#2F3034" }} activeTabStyle={{ backgroundColor: "#2F3034" }} style={{backgroundColor:'#2F3034'}}>
+        <Tabs tabBarUnderlineStyle={{height:2,justifyContent:'center', backgroundColor:colors.underlineColor}}>
+          <Tab heading="Active" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: colors.containerColor }} activeTabStyle={{ backgroundColor: colors.containerColor }} style={{backgroundColor:colors.containerColor}}>
             <ActiveCard navigation={props.navigation}/>
           </Tab>
-          <Tab heading="Open" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: "#2F3034" }} activeTabStyle={{ backgroundColor: "#2F3034" }} style={{backgroundColor:'#2F3034'}}>
+          <Tab heading="Open" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: colors.containerColor }} activeTabStyle={{ backgroundColor: colors.containerColor }} style={{backgroundColor:colors.containerColor}}>
             <OpenCard navigation={props.navigation}/>
           </Tab>
-          <Tab heading="In Progress" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: "#2F3034" }} activeTabStyle={{ backgroundColor: "#2F3034" }} style={{backgroundColor:'#2F3034'}}>
+          <Tab heading="In Progress" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: colors.containerColor }} activeTabStyle={{ backgroundColor: colors.containerColor }} style={{backgroundColor:colors.containerColor}}>
             <ProgressCard navigation={props.navigation}/>
           </Tab>
-          <Tab heading="Finished" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: "#2F3034" }} activeTabStyle={{ backgroundColor: "#2F3034" }} style={{backgroundColor:'#2F3034'}}>
+          <Tab heading="Finished" textStyle={{color:'white'}} activeTextStyle={{color:'white'}} tabStyle={{ backgroundColor: colors.containerColor }} activeTabStyle={{ backgroundColor: colors.containerColor }} style={{backgroundColor:colors.containerColor}}>
             <Finished navigation={props.navigation}/>
           </Tab>
         </Tabs>

@@ -24,6 +24,7 @@ import Carousel from 'react-native-banner-carousel';
 import { Container, Content, Card, CardItem, Thumbnail, Left, Body, Right, Button} from 'native-base';
 import InstaViewImage from './InstaViewImage'
 import * as Progress from 'react-native-progress';
+import Stories from '../../components/Stories/screens/Stories'
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 260;
 
@@ -79,9 +80,6 @@ const TopPicks = (props) => {
         if(currentIndex !=null){
             _carousel.current.gotoPage(currentIndex)
         }
-      
-      
-       
     }
 
     const renderPage = (image, index) => {
@@ -162,59 +160,62 @@ const TopPicks = (props) => {
 
     }
 
-    if(displayStory){
-        return(
-            <Modal
-            transparent={false}
-            animationType={'fade'}
-            visible={displayStory}
-            onRequestClose={()=>showStoryFunction(false)}
-            >
-               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'black'}}>
-                    <Carousel
-                        ref={_carousel}
-                        autoplay={false}
-                        autoplayTimeout={5000}
-                        loop={false}
-                        onPageChanged={onPageChanged}
-                        index={0}
-                        pageSize={BannerWidth}
-                        showsPageIndicator={false}
+    // if(displayStory){
+    //     return(
+    //         <Modal
+    //         transparent={false}
+    //         animationType={'fade'}
+    //         visible={displayStory}
+    //         onRequestClose={()=>showStoryFunction(false)}
+    //         >
+    //            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'black'}}>
+    //                 <Carousel
+    //                     ref={_carousel}
+    //                     autoplay={false}
+    //                     autoplayTimeout={5000}
+    //                     loop={false}
+    //                     onPageChanged={onPageChanged}
+    //                     index={0}
+    //                     pageSize={BannerWidth}
+    //                     showsPageIndicator={false}
                         
-                    >
-                        {images.map((image, index) => renderPage(image, index))}
-                    </Carousel>
-                    <TouchableOpacity style={{position:'absolute', top:40,right:15}} onPress={()=>showStoryFunction(false)}>
-                        <Icon name="cross" color="white" size={20}/>
-                    </TouchableOpacity>
-                    {/* <View style={{position:'absolute', top:0}}>
-                        <Progress.Bar indeterminate={false} progress={progressBar} width={200} />
-                    </View> */}
-                    <View style={styles.container}>
-                    {
-                        images.map((val,index)=>(
+    //                 >
+    //                     {images.map((image, index) => renderPage(image, index))}
+    //                 </Carousel>
+    //                 <TouchableOpacity style={{position:'absolute', top:40,right:15}} onPress={()=>showStoryFunction(false)}>
+    //                     <Icon name="cross" color="white" size={20}/>
+    //                 </TouchableOpacity>
+    //                 {/* <View style={{position:'absolute', top:0}}>
+    //                     <Progress.Bar indeterminate={false} progress={progressBar} width={200} />
+    //                 </View> */}
+    //                 <View style={styles.container}>
+    //                 {
+    //                     images.map((val,index)=>(
                           
-                    <View style={styles.progressBar}>
-                        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "white", width: !(index >= name) ? '100%' : index === name ? width : 0}]}/>    
-                    </View>
-                     ))
-                     }
-                    {/* <View>
-                        <Text style={{color:'white'}}>{name}</Text>
-                    </View> */}
-                 </View>
-               </View>
-            </Modal>
-        )
-    }else{
+    //                 <View style={styles.progressBar}>
+    //                     <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "white", width: !(index >= name) ? '100%' : index === name ? width : 0}]}/>    
+    //                 </View>
+    //                  ))
+    //                  }
+    //                 {/* <View>
+    //                     <Text style={{color:'white'}}>{name}</Text>
+    //                 </View> */}
+    //              </View>
+    //            </View>
+    //         </Modal>
+    //     )
+    // }else{
     return(
         <>
+         <ScrollView>
             <View style={{margin:10, flexDirection:'row'}}>
-                <TouchableOpacity onPress={()=>{showStoryFunction(true), setStoryView(false)}}>
+               <Stories/>
+                {/* <TouchableOpacity onPress={()=>{showStoryFunction(true), setStoryView(false)}}>
                     <View style={storyView ? styles.storyBorder : styles.storyDisplay}>
                         <Avatar.Image size={55} source={require('../../assets/images/user.jpeg')} />
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                
                 {/* <Text style={{color:'white'}}>{progressWidth}</Text> */}
                 {/* <TouchableOpacity onPress={()=>{showStoryFunction(true), setStoryView(false)}}>
                     <View style={storyView ? styles.storyBorder : styles.storyDisplay}>
@@ -227,11 +228,12 @@ const TopPicks = (props) => {
                     </View>
                 </TouchableOpacity> */}
             </View>
-            <View style={{ borderBottomColor: 'grey', borderBottomWidth:2, marginTop:10, marginBottom:10}}></View>
+            <View style={{ borderBottomColor: '#4A4A4A', borderBottomWidth:1, marginTop:10, marginBottom:10}}></View>
             <InstaViewImage navigation={props.navigation}/>
+            </ScrollView>
         </>
     )
-    }
+    // }
 }
 
 export default TopPicks

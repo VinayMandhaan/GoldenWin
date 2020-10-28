@@ -230,21 +230,24 @@ import Following from './Following';
 import Followers from './Followers';
 import Likes from './Likes';
 import CustomIcon from '../../../src/CustomIcon'
+import {useTheme} from '@react-navigation/native'
+
 const StickyHeader = (props) => {
+    const {colors} = useTheme()
     const [currentTab,setCurrentTab] = useState(0)
-    
+    // var { userProfile } = props.route.params;
     return(
         <>
         {/* <Text>{currentTab}</Text> */}
         <CollapsibleTabs
-            collapsibleContent={(<ProfileCard/>)}            
+            collapsibleContent={(<ProfileCard navigation={props.navigation}/>)}            
             onChange={(index)=>setCurrentTab(index)}
-            barColor="white"
+            barColor={colors.userTabs}
             tabs={[{
                 label:
-                <View style={{flexDirection:'column'}}>
-                    <Icon name='image' color="grey" style={currentTab==0 ? styles.activeStyle:styles.inActiveStyle} size={20} />
-                    <Text style={currentTab==0 ? styles.activeTxtStyle:styles.inActiveTxtStyle}>WIN PHOTOS</Text>
+                <View style={{flexDirection:'column', backgroundColor:colors.userTabs}}>
+                    <Icon name='image' color="white" style={currentTab==0 ? styles.activeStyle:styles.inActiveStyle} size={20} />
+                    <Text style={currentTab==0 ? styles.activeTxtStyle:styles.inActiveTxtStyle}>Win Photos</Text>
                 </View>,
                 component: (<Gallery navigation={props.navigation}/>)
             }, {
@@ -260,7 +263,7 @@ const StickyHeader = (props) => {
                 label:  
                 <View style={{flexDirection:'column'}}>
                     <CustomIcon name="achievement" color="grey" size={20} style={currentTab==2 ? styles.activeStyle:styles.inActiveStyle} />
-                    <Text style={currentTab==2 ? styles.activeTxtStyle:styles.inActiveTxtStyle}>Achievements</Text>
+                    <Text style={currentTab==2 ? styles.activeTxtStyle:styles.inActiveTxtStyle}>Achievement</Text>
                 </View>,
                 component : (
                     <Achievements navigation={props.navigation}/>

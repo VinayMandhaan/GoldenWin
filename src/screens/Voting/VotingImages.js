@@ -17,12 +17,12 @@ import { Input, CheckBox, Button } from 'react-native-elements';
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, TabHeading } from 'native-base';
 import VotingHeader from '../../components/Voting/VotingHeader';
 import TopHeader from '../../components/TopHeader'
 import BestPhoto from './BestPhoto';
+import {useTheme} from '@react-navigation/native'
 // var Data = [
 //     {
 //         id:1,
@@ -47,12 +47,16 @@ import BestPhoto from './BestPhoto';
 // ]
 var counter = 1;
 const VotingImages = (props) => {
+    const tabletHeight = 450
+    const mobileHeight = 250
+    const {colors} = useTheme()
     var { Data } = props.route.params;
     const [bestImage, setBestImage] = useState([])
     const [selectedImages, setSelectedImages] = useState([])
     const [runOnce,setRunOnce] = useState(true)
+    const [screenName, setScreenName] = useState(false)
     useEffect(()=>{
-        setSelectedImages([]);
+        setScreenName(!screenName)
         console.log('USE EFFECT')
         getImages()
     },[runOnce])
@@ -90,39 +94,38 @@ const VotingImages = (props) => {
             console.log(selectedImages[index])
             setSelectedImages([])
             setBestImage([])
+           
             props.navigation.navigate('BestPhoto',{
                 imgData:topImg
-            })
-           
-            
+            }) 
         }
         setSelectedImages(array)
     
     }
 
     return(
-        <View style={{backgroundColor:'#2F3034', flex:1}}>
+        <View style={{backgroundColor:colors.containerColor, flex:1}}>
             <VotingHeader navigation={props.navigation}/>
-            <ScrollView>
+           
             <View>
                 {
                     selectedImages.map((val,index)=>(
-                    <Card transparent style={{marginLeft:5,marginRight:5, marginTop:20}}>
+                    <Card key={val.id} transparent style={{marginLeft:5,marginRight:5, marginTop:20}}>
                         <TouchableOpacity onPress={()=>getTopImages(val.id, index)}>
-                            <ImageBackground key={val.id} source={val.url} style={{height:250,width:'95%', borderRadius:10, alignSelf:'center', marginLeft:15}}>
+                            <Image key={val.id} source={val.url} style={{height:width > 600 ? tabletHeight: mobileHeight,width:'95%', borderRadius:10, alignSelf:'center', marginLeft:15}}>
                                 {/* {
                                     val.clicked ? 
                                     <View>
                                         <Icon name="check" color="white" size={18} style={{backgroundColor:'green', borderRadius:90/2}}/>
                                     </View> : null
                                 } */}
-                            </ImageBackground>
+                            </Image>
                         </TouchableOpacity>
                     </Card>
                     ))
                 }
             </View>
-            </ScrollView>
+           
             <View style={{width:'100%', height:50,justifyContent:'center',alignItems:'center',position:'absolute', bottom:0, backgroundColor:'white', borderTopRightRadius:10,borderTopLeftRadius:10}}>
                 <TouchableOpacity>
                     <View style={{flexDirection:'row'}}>

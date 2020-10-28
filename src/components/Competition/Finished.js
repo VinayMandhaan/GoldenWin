@@ -19,6 +19,8 @@ import FinishedBar from './FinishedBar';
 import ProgressGraph from './ProgressGraph'
 import VoterGraph from './VoterGraph'
 import {Switch} from 'native-base'
+import {useTheme} from '@react-navigation/native'
+
 var Data = [
     {
         title:'Nature',
@@ -28,7 +30,8 @@ var Data = [
         price:'50$',
         points:240,
         img:require('../../assets/images/camera1.jpeg'),
-        winner:true
+        winner:true,
+        time:false
     },
     {
         title:'Nature',
@@ -38,7 +41,9 @@ var Data = [
         price:'50$',
         points:240,
         img:require('../../assets/images/photography.jpeg'),
-        winner:false
+        winner:false,
+        time:false,
+        lost:true
     },
     {
         title:'Nature',
@@ -48,15 +53,18 @@ var Data = [
         price:'50$',
         points:240,
         img:require('../../assets/images/camera2.jpeg'),
-        winner:true
+        winner:false,
+        time:true
     },
 ]
 
 
 const Finished = (props) => {
+    const {colors} = useTheme()
     const [downloadable, setDownloadable] = useState(false)
     return(
         <View style={{flex:1, marginBottom:20}}>
+        <View style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
         {
             Data.map(val=>(
                 <Card style={styles.cardStyle}>
@@ -64,47 +72,158 @@ const Finished = (props) => {
                     <Card.Content>
                         <Title style={styles.cardTitle}>{val.title}</Title>
                         <Text style={{textAlign:'center', color:'white', fontWeight:'bold', fontSize:15}}>{val.category}</Text>
-                        <View style={{width:width-40, alignSelf:"center",}}>
+                        {/* <View style={{width:width-40, alignSelf:"center",}}> */}
                             <Divider orientation={"center"} color={'#fff'}>{val.subTitle}</Divider>
-                        </View>
+                        {/* </View> */}
                     </Card.Content>
                     {/* <View style={styles.rotatedView}>
                         <Text style={styles.priceText}>{val.price}</Text>
                     </View>     */}
                     <Card.Actions>
-                        <View style={val.winner ? styles.winnerStyle : styles.lostStyle}>
+                        {
+                            val.winner ? 
+                            (
+                                <View style={styles.winnerStyle}>
+                                    <TouchableOpacity>
+                                        <FinishedBar/>
+                                    </TouchableOpacity>                        
+                                </View>
+                            ) : null
+                        }
+                        
+                        {
+                            val.time ? 
+                            (
+                                <View style={styles.winnerStyle}>
+                                    <TouchableOpacity>
+                                        <FinishedBar/>
+                                    </TouchableOpacity>                        
+                                </View>
+                            ) : null
+                        }
+                        {/* <View style={val.winner ? styles.winnerStyle : styles.lostStyle}>
                         <TouchableOpacity>
                             <FinishedBar/>
                         </TouchableOpacity>                        
-                        </View>
+                        </View> */}
+                        {
+                             val.lost ? 
+                             (
+                                 <View style={styles.lostStyle}>
+                                     <TouchableOpacity>
+                                         <FinishedBar/>
+                                     </TouchableOpacity>                        
+                                 </View>
+                             ) : null
+                        }
                         <View>
                            {
                                val.winner ?
-                                <ImageBackground source={require('../../assets/images/boximage.png')} imageStyle={{opacity:0.5}} style={styles.boxImg}>
+                                <ImageBackground source={require('../../assets/images/boximage.png')} style={styles.boxImg}>
                                     <View style={{top:25}}>
-                                        <Text style={{color:'white', textAlign:'center'}}>Removed In 15:25</Text>
+                                        {
+                                            !val.winner ? 
+                                            <Text style={{color:'white', textAlign:'center'}}>Removed In 15:25</Text>
+                                            : null
+                                        } 
                                     </View>
                                 </ImageBackground>
                                 : null
                            }
                         </View>
+                        <View>
+                           {
+                               val.time ?
+                                <ImageBackground source={require('../../assets/images/boximage.png')} imageStyle={{opacity:0.5}} style={styles.boxImg}>
+                                    <View style={{top:25}}>
+                                        {
+                                            !val.winner ? 
+                                            <Text style={{color:'white', textAlign:'center'}}>Removed In 15:25</Text>
+                                            : null
+                                        } 
+                                    </View>
+                                </ImageBackground>
+                                : null
+                           }
+                        </View>
+                        {/* <View>
+                            {
+                                val.winner === false && val.time === true ?
+                                <ImageBackground source={require('../../assets/images/boximage.png')} imageStyle={{opacity:0.5}} style={styles.boxImg}>
+                                    <View style={{top:25}}>
+                                        {
+                                            !val.winner ? 
+                                            <Text style={{color:'white', textAlign:'center'}}>Removed In 15:25</Text>
+                                            : null
+                                        } 
+                                    </View>
+                                </ImageBackground>
+                                : null
+                            }
+                        </View> */}
                     </Card.Actions>
-                    <View style={val.winner ? styles.winnerPoints : styles.lostPoints}>
+                    {
+                        val.winner ? 
+                        (
+                            <>
+                            <View style={styles.winnerPoints}>
+                                <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>GW Points:</Text>
+                                <Text style={{color:'#FDAA00', marginRight:5}}>{val.points}</Text>
+                            </View>
+                             <View style={styles.winnerParticipation}>
+                                <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>Partcipation Price:</Text>
+                                <Text style={{color:'#FDAA00', marginRight:5}}>5$</Text>
+                            </View>
+                            </>
+                        ) : null
+                    }
+                    {
+                         val.time ? 
+                         (
+                             <>
+                             <View style={styles.winnerPoints}>
+                                 <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>GW Points:</Text>
+                                 <Text style={{color:'#FDAA00', marginRight:5}}>{val.points}</Text>
+                             </View>
+                              <View style={styles.winnerParticipation}>
+                                 <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>Partcipation Price:</Text>
+                                 <Text style={{color:'#FDAA00', marginRight:5}}>5$</Text>
+                             </View>
+                             </>
+                         ) : null
+                    }
+                    {
+                        val.lost ? 
+                        (
+                            <>
+                            <View style={styles.lostPoints}>
+                                <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>GW Points:</Text>
+                                <Text style={{color:'#FDAA00', marginRight:5}}>{val.points}</Text>
+                            </View>
+                             <View style={styles.lostPoints}>
+                                <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>Partcipation Price:</Text>
+                                <Text style={{color:'#FDAA00', marginRight:5}}>5$</Text>
+                            </View>
+                            </>
+                        ) : null
+                    }
+                    
+                    {/* <View style={val.winner ? styles.winnerPoints : styles.lostPoints}>
                         <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>GW Points:</Text>
                         <Text style={{color:'#FDAA00', marginRight:5}}>{val.points}</Text>
                     </View>
-                    <View style={val.winner ? styles.winnerParticipation : styles.lostParticipation}>
+                    <View style={val.winner ? styles.winnerParticipation : styles.lostPoints}>
                         <Text style={{color:'white', marginRight:5, marginTop:2, fontSize:12}}>Partcipation Price:</Text>
                         <Text style={{color:'#FDAA00', marginRight:5}}>5$</Text>
-                    </View>
+                    </View> */}
                     {
                         !val.winner ? 
-                        <View style={{width:'100%',justifyContent:'center',alignItems:'center', position:'absolute', bottom:0, backgroundColor:'#FE9700', borderBottomRightRadius:10, borderBottomLeftRadius:10}}>
+                        <View style={{width:'100%',justifyContent:'center',alignItems:'center', position:'absolute', bottom:0, backgroundColor:colors.btnColor, borderBottomRightRadius:10, borderBottomLeftRadius:10}}>
                             <TouchableOpacity style={{flexDirection:'row', padding:15}} onPress={()=>props.navigation.navigate('ImageView',{
                                 imgData:val.img
                             })}>
-                                    <Icon name="trophy" color="white" size={20}/>
-                                    <Text style={{color:'white', fontSize:15, marginLeft:5}}>VIEW WINNER</Text>
+                                    <Icon name="trophy" color={colors.btnTxt} size={20}/>
+                                    <Text style={{color:colors.btnTxt, fontSize:15, marginLeft:5}}>VIEW WINNER</Text>
                                
                             </TouchableOpacity>
                         </View>
@@ -124,11 +243,11 @@ const Finished = (props) => {
                         val.winner ? 
                         (
                             <View style={{marginLeft:5, marginTop:10}}>
-                            <TouchableOpacity style={{backgroundColor:'#FDAA00', width:'35%', padding:2, borderRadius:10}}>
-                                <Text style={{color:'white', textAlign:'center'}}>Publish The Status</Text>
+                            <TouchableOpacity style={{backgroundColor:colors.btnColor, width:'35%', padding:2, borderRadius:10}}>
+                                <Text style={{color:colors.btnTxt, textAlign:'center'}}>Publish The Status</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{backgroundColor:'#FDAA00', width:'35%', padding:2, borderRadius:10, marginTop:10}}>
-                                <Text  style={{color:'white', textAlign:'center'}}>Publish In Public</Text>
+                            <TouchableOpacity style={{backgroundColor:colors.btnColor, width:'35%', padding:2, borderRadius:10, marginTop:10}}>
+                                <Text  style={{color:colors.btnTxt, textAlign:'center'}}>Publish In Public</Text>
                             </TouchableOpacity>
                                 <View style={{flexDirection:'row', marginTop:10, marginLeft:5}}>
                                     <Text style={{color:'white', fontWeight:'bold', marginRight:5}}>Downloadable</Text>
@@ -142,6 +261,7 @@ const Finished = (props) => {
                 </Card>   
             ))
         }
+        </View>
         </View>
     )
 }
@@ -157,7 +277,8 @@ const styles = StyleSheet.create({
         marginTop:5, 
         marginLeft:3, 
         borderTopLeftRadius:10,
-        borderRadius:10
+        borderRadius:10,
+        width:width < 600 ? width:(width/2) - 6
     },
     imageStyle:{
         height:300,
@@ -235,7 +356,7 @@ const styles = StyleSheet.create({
     winnerStyle:{
         position:'absolute', 
         right:0,
-        marginRight:10
+        marginRight:10,
     },
     lostStyle:{
         width:'100%',
@@ -262,5 +383,7 @@ const styles = StyleSheet.create({
     lostParticipation:{
         flexDirection:'row',
         alignSelf:'center',
-    }
+    },
+
+    
 })

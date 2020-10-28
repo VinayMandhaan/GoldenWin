@@ -15,14 +15,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Divider from 'react-native-divider';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height
-import Lightbox from 'react-native-lightbox';
 import {Avatar} from 'react-native-paper'
 import { Container, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item, Input} from 'native-base';
-
+import {useTheme} from '@react-navigation/native'
 
 const TopHeader = (props) => {
+    const {colors} = useTheme()
     return(
-        <View style={props.loggedIn ? styles.mainHeader : styles.logoutView}>
+        <View style={[props.loggedIn ? styles.mainHeader : styles.logoutView,{backgroundColor:colors.secondaryColor}]}>
         <View style={styles.arrowView}>
             <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                 <Icon name="chevron-left" color="white" size={20}/>
