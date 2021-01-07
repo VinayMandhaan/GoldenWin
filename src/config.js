@@ -2,14 +2,13 @@ import * as firebase from 'firebase';
 import 'firebase/firestore'
 
 var firebaseConfig = {
-    apiKey: "AIzaSyANpm4rkzAXt3tArEwgdeucL81l1IcNHmU",
-    authDomain: "photos-competitions.firebaseapp.com",
-    databaseURL: "https://photos-competitions.firebaseio.com",
-    projectId: "photos-competitions",
-    storageBucket: "photos-competitions.appspot.com",
-    messagingSenderId: "375198374185",
-    appId: "1:375198374185:web:6e310a2fc321ceaccfff38",
-    measurementId: "G-MBNR6SP5CZ"
+  apiKey: "AIzaSyDBjrRM2wYX5S2QgknBfCPYSXO4V-_NWWw",
+  authDomain: "goldenwinclient.firebaseapp.com",
+  projectId: "goldenwinclient",
+  storageBucket: "goldenwinclient.appspot.com",
+  messagingSenderId: "264053663939",
+  appId: "1:264053663939:web:fa60314910dabb6513da76",
+  measurementId: "G-5JVGRTG63J"
   };
 // Initialize Firebase
 export default firebase.initializeApp(firebaseConfig);

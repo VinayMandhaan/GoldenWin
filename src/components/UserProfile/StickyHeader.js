@@ -222,7 +222,7 @@ const height = Dimensions.get('window').height
 import {Avatar} from 'react-native-paper'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Left, Body, Right, Tabs, Tab, Grid, Col, Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
-import {CollapsibleTabs} from 'react-native-collapsible-tabs'
+import {CollapsibleTabs} from '../react-native-collapsible-tabs'
 import ProfileCard from './ProfileCard'
 import Gallery from './Gallery'
 import Achievements from './Achievements';

@@ -1,0 +1,45 @@
+{
+  "_args": [
+    [
+      "react-native-collapsible-tabs@1.0.2",
+      "C:\\Users\\Concept Recall\\IdeaProjects\\goldenwin"
+    ]
+  ],
+  "_from": "react-native-collapsible-tabs@1.0.2",
+  "_id": "react-native-collapsible-tabs@1.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-L/EDyY0RXidvWq/NluOfWPC1IOxAS1hvEiPsiC5BHaRv2iacF4DhUPGWXM6VZBamwEopUKDXuiS1njtWvShBeg==",
+  "_location": "/react-native-collapsible-tabs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "react-native-collapsible-tabs@1.0.2",
+    "name": "react-native-collapsible-tabs",
+    "escapedName": "react-native-collapsible-tabs",
+    "rawSpec": "1.0.2",
+    "saveSpec": null,
+    "fetchSpec": "1.0.2"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-collapsible-tabs/-/react-native-collapsible-tabs-1.0.2.tgz",
+  "_spec": "1.0.2",
+  "_where": "C:\\Users\\Concept Recall\\IdeaProjects\\goldenwin",
+  "author": {
+    "name": "Alan Saracho",
+    "email": "saracho.alan@gmail.com"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-collapsible-tabs",
+  "peerDependencies": {
+    "react-native-snap-carousel": "^3.8.0",
+    "react-native-material-tabs": "^3.8.1"
+  },
+  "version": "1.0.2"
+}
